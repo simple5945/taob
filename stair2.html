@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;
+				padding: 0;
+			}
+			#stairnav{
+				position: fixed;
+				top:25%;
+				left: 50%;
+				margin-left: -600px;
+				border: 1px solid #000;
+			}
+			#stairnav ul li{
+				position: relative;
+				width: 30px;
+				height: 30px;
+				list-style: none;
+				text-align: center;
+				line-height: 30px;
+				border-bottom: 1px dotted #aaa;
+				font-size: 12px;
+				cursor:pointer;
+			}
+			#stairnav ul li.last{
+				color: #fff;
+				background: darkred;
+				border: none;
+			}
+			#stairnav ul li span{
+				width: 30px;
+				height: 30px;
+				display: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+				color: red;
+			}
+			#stairnav ul li:hover span{
+				color: #fff;
+				background: darkred;
+				display: block;
+			}
+			#stairnav ul li span.active{
+				color: red;
+				background: #fff;
+				display: block;
+			}
+			#stairnav ul li:hover span.active{
+				color: #fff;
+				background: darkred;
+				display: block;
+			}
+			#header,#main,#footer{
+				font-size:40px;
+				text-align: center;
+				width: 1000px;
+				margin: 0 auto;
+			}
+			#header,#footer{
+				height: 300px;
+				background: #0000FF;
+				line-height: 300px;
+			}
+			#main .louti{
+				height: 700px;
+				line-height: 700px;
+			}
+		</style>
+		<script src="js/jquery-1.12.3.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				var isClick=false;
+				$("#stairnav ul li:not(:last)").click(function(){
+					isClick=true;
+					$(this).find("span").addClass("active").parent().siblings().find("span").removeClass("active");
+					//$("#stairnav ul li span").removeClass("active");
+					//$(this).find("span").addClass("active");
+					var height=$(".louti").eq($(this).index()).offset().top;
+					$("html,body").stop().animate({scrollTop:height},500,function(){
+						isClick=false;
+					});
+				})
+				$("#stairnav ul li.last").click(function(){
+						$("html,body").animate({scrollTop:0},500)
+				})
+				$(window).scroll(function(){
+					if(!isClick){
+						var height = $(window).scrollTop();
+						$(".louti").each(function(){
+							if(height>=($(this).offset().top-$(this).outerHeight()/2)){
+								$("#stairnav ul li").eq($(this).index()).find("span").addClass("active").parent().siblings().find("span").removeClass("active");
+							}	
+						})
+					}
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<div id="stairnav">
+			<ul>
+				<li>F1<span>家电</span></li>
+				<li>F2<span>服饰</span></li>
+				<li>F3<span>手机</span></li>
+				<li>F4<span>美妆</span></li>
+				<li>F5<span>数码</span></li>
+				<li>F6<span>母婴</span></li>
+				<li>F7<span>运动</span></li>
+				<li>F8<span>食品</span></li>
+				<li>F9<span>家具</span></li>
+				<li>F10<span>图书</span></li>
+				<li>F11<span>服务</span></li>
+				<li class="last">Top</li>
+			</ul>
+		</div>
+		<div id="header">头部</div>
+		<div id="main">
+			<div class="louti" style="background:#457">家电</div>
+			<div class="louti" style="background:#842">服饰</div>
+			<div class="louti" style="background:#573">手机</div>
+			<div class="louti" style="background:#863">美妆</div>
+			<div class="louti" style="background:#612">数码</div>
+			<div class="louti" style="background:#164">母婴</div>
+			<div class="louti" style="background:#953">运动</div>
+			<div class="louti" style="background:#d63">食品</div>
+			<div class="louti" style="background:#a00">家具</div>
+			<div class="louti" style="background:#462">图书</div>			
+			<div class="louti" style="background:#2e7">服务</div>
+		</div>
+		<div id="footer">尾部</div>
+	</body>
+</html>
